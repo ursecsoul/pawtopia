@@ -81,10 +81,10 @@ Adalah tempat file CSS/JS yang akan dimuat di browser.
 Folder database/migrations berisi file migrasi yang digunakan untuk membuat tabel database.
 
 Contoh cara menjalankan migrasi:
-php artisan migrate
+- php artisan migrate
 
 Atau juga bisa mengisi database awal dengan seeder:
-php artisan db:seed
+- php artisan db:seed
 
 Cara Install & Jalankan (Local)
 
@@ -98,29 +98,29 @@ Cara Install & Jalankan (Local)
 - npm run dev
 
 3. Copy file environment:
-cp .env.example .env
+- cp .env.example .env
 
 4. Atur konfigurasi database di .env
 
 5. Generate application key:
-php artisan key:generate
+- php artisan key:generate
 
 6. Jalankan migrasi:
-php artisan migrate
+- php artisan migrate
 
 7. Jalankan server:
-php artisan serve
+- php artisan serve
 
 Server akan berjalan di http://127.0.0.1:8000
 
 Fitur :
-✴ Halaman Beranda
-✴ Booking
-✴ Katalog Produk
-✴ Form Kontak 
-✴ Profile/Member
-✴ Autentikasi Admin
-✴ CRUD Produk & Kategori, testimoni
+- Halaman Beranda
+- Booking
+- Katalog Produk
+- Form Kontak 
+- Profile/Member
+- Autentikasi Admin
+- CRUD Produk & Kategori, testimoni
 
 Teknologi yang Digunakan : 
 - PHP (Laravel Framework)
