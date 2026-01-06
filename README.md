@@ -46,8 +46,8 @@ public function index()
 }
 
 Artinya:
--Ambil semua data produk
--Tampilkan di view resources/views/home.blade.php
+- Ambil semua data produk
+- Tampilkan di view resources/views/home.blade.php
 
 ### 3. Model (Eloquent ORM)
 Model adalah representasi tabel database, biasanya berada di app/Models.
