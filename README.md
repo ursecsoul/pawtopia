@@ -1,61 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Pawtopia – Laravel Web Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Pawtopia** adalah sebuah **web aplikasi berbasis Laravel** yang dibuat untuk menampilkan fitur-fitur sebuah pet care service, seperti katalog produk, halaman informasi, dan fitur lain yang memanfaatkan framework Laravel.
+---
 
-## About Laravel
+## Struktur Project & Cara Kerja Kode
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Struktur folder utama Pawtopia seperti berikut:
+-├── app/ # Logika aplikasi (Models, Controllers, middleware)
+-├── bootstrap/ # Bootstrap framework & cache
+-├── config/ # Konfigurasi Laravel
+-├── database/ # Migration dan Seeder
+-├── public/ # File yang dipublikasikan (CSS/JS/assets)
+-├── resources/ # View (Blade), assets front-end
+-├── routes/ # File routing HTTP
+-├── storage/ # Log, session, cache
+-├── tests/ # Testing Aplikasi
+-├── vendor/ # Library Laravel & dependencies
+-├── artisan # CLI Laravel
+-├── composer.json # Dependensi package PHP
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Cara Kerja Utama Kode
 
-## Learning Laravel
+#### 1. Routing (routes/web.php)
+Semua **URL yang diakses browser** akan didefinisikan di `routes/web.php`. Laravel akan memetakan setiap route ke Controller yang sesuai, misalnya:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Route::get('/', [HomeController::class, 'index']);
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Maksudnya:
+Ketika pengunjung membuka https://domainanda/, maka Laravel akan menjalankan fungsi index() di HomeController.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Controller
+Controller berada di folder app/Http/Controllers.
 
-## Laravel Sponsors
+Fungsinya:
+- Mengambil data dari Model
+- Mengirim data ke View
+- Mengatur logika aplikasi sebelum ditampilkan ke user
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Contoh:
+public function index()
+{
+    $products = Product::all();
+    return view('home', compact('products'));
+}
 
-### Premium Partners
+Artinya:
+-Ambil semua data produk
+-Tampilkan di view resources/views/home.blade.php
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. Model (Eloquent ORM)
+Model adalah representasi tabel database, biasanya berada di app/Models.
 
-## Contributing
+Contoh:
+class Product extends Model {}
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Laravel Eloquent akan otomatis memetakan model ini ke tabel products di database.
 
-## Code of Conduct
+### 4. Views (Blade Templates)
+Folder resources/views berisi file frontend yang memakai Blade (templating engine Laravel).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Contoh:
+- layouts/app.blade.php — template layout umum
+- home.blade.php — halaman utama
 
-## Security Vulnerabilities
+Blade memudahkan:
+- Reuse layout
+- Menampilkan data dengan sintaks {{ $variable }}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Assets (CSS / JS / Images)
 
-## License
+Folder publik seperti:
+- public/css
+- public/js
+- public/images
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Adalah tempat file CSS/JS yang akan dimuat di browser.
+
+### 6. Database & Migration
+Folder database/migrations berisi file migrasi yang digunakan untuk membuat tabel database.
+
+Contoh cara menjalankan migrasi:
+php artisan migrate
+
+Atau juga bisa mengisi database awal dengan seeder:
+php artisan db:seed
+
+Cara Install & Jalankan (Local)
+
+1. Clone repository:
+- git clone https://github.com/ursecsoul/pawtopia.git
+- cd pawtopia
+
+2. Install dependensi:
+- composer install
+- npm install
+- npm run dev
+
+3. Copy file environment:
+cp .env.example .env
+
+4. Atur konfigurasi database di .env
+
+5. Generate application key:
+php artisan key:generate
+
+6. Jalankan migrasi:
+php artisan migrate
+
+7. Jalankan server:
+php artisan serve
+
+Server akan berjalan di http://127.0.0.1:8000
+
+Fitur :
+✴ Halaman Beranda
+✴ Booking
+✴ Katalog Produk
+✴ Form Kontak 
+✴ Profile/Member
+✴ Autentikasi Admin
+✴ CRUD Produk & Kategori, testimoni
+
+Teknologi yang Digunakan : 
+- PHP (Laravel Framework)
+- Composer
+- Blade Template
+- MySQL / MariaDB
+- CSS/JS & assets front-end
+
+Penulis [Adinda Rachmania]
