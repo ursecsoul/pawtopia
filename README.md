@@ -28,7 +28,7 @@ Semua **URL yang diakses browser** akan didefinisikan di `routes/web.php`. Larav
 Route::get('/', [HomeController::class, 'index']);
 
 Maksudnya:
-Ketika pengunjung membuka https://domainanda/, maka Laravel akan menjalankan fungsi index() di HomeController.
+Ketika pengunjung membuka https://pawtopia/, maka Laravel akan menjalankan fungsi index() di HomeController.
 
 ### 2. Controller
 Controller berada di folder app/Http/Controllers.
