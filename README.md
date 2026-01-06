@@ -6,18 +6,18 @@
 ## Struktur Project & Cara Kerja Kode
 
 Struktur folder utama Pawtopia seperti berikut:
--├── app/ # Logika aplikasi (Models, Controllers, middleware)
--├── bootstrap/ # Bootstrap framework & cache
--├── config/ # Konfigurasi Laravel
--├── database/ # Migration dan Seeder
--├── public/ # File yang dipublikasikan (CSS/JS/assets)
--├── resources/ # View (Blade), assets front-end
--├── routes/ # File routing HTTP
--├── storage/ # Log, session, cache
--├── tests/ # Testing Aplikasi
--├── vendor/ # Library Laravel & dependencies
--├── artisan # CLI Laravel
--├── composer.json # Dependensi package PHP
+- ├── app/ # Logika aplikasi (Models, Controllers, middleware)
+- ├── bootstrap/ # Bootstrap framework & cache
+- ├── config/ # Konfigurasi Laravel
+- ├── database/ # Migration dan Seeder
+- ├── public/ # File yang dipublikasikan (CSS/JS/assets)
+- ├── resources/ # View (Blade), assets front-end
+- ├── routes/ # File routing HTTP
+- ├── storage/ # Log, session, cache
+- ├── tests/ # Testing Aplikasi
+- ├── vendor/ # Library Laravel & dependencies
+- ├── artisan # CLI Laravel
+- ├── composer.json # Dependensi package PHP
 
 
 ### Cara Kerja Utama Kode
