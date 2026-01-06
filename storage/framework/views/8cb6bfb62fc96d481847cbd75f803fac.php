@@ -1,0 +1,1784 @@
+<?php echo $__env->make('layoutadmin.navbar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="dashboard-root">
+        <!-- Main Content -->
+        <main class="dashboard-main">
+        <!-- Header -->
+        <?php if (isset($component)) { $__componentOriginald37f1b809d8dad08d9600a37cd72bf8e = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald37f1b809d8dad08d9600a37cd72bf8e = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.dashboard-header','data' => ['title' => 'Dashboard Admin','subtitle' => 'Pet Boarding Management System','icon' => 'home']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('dashboard-header'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Dashboard Admin','subtitle' => 'Pet Boarding Management System','icon' => 'home']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald37f1b809d8dad08d9600a37cd72bf8e)): ?>
+<?php $attributes = $__attributesOriginald37f1b809d8dad08d9600a37cd72bf8e; ?>
+<?php unset($__attributesOriginald37f1b809d8dad08d9600a37cd72bf8e); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald37f1b809d8dad08d9600a37cd72bf8e)): ?>
+<?php $component = $__componentOriginald37f1b809d8dad08d9600a37cd72bf8e; ?>
+<?php unset($__componentOriginald37f1b809d8dad08d9600a37cd72bf8e); ?>
+<?php endif; ?>
+
+            <!-- Stats Cards -->
+            <div class="dashboard-stats-row">
+                <div class="dashboard-card">
+                    <img src="<?php echo e(asset('images/1.svg')); ?>" alt="icon" class="card-icon-top">
+                    <img src="<?php echo e(asset('images/11.svg')); ?>" alt="icon" class="card-icon-bottom">
+                    <div class="card-title">Total Bookings</div>
+                    <div class="card-number"><?php echo e($totalBookings); ?></div>
+                    <div class="card-subtitle">
+                        <?php echo e($thisWeekBookings); ?> booking<?php echo e($thisWeekBookings != 1 ? 's' : ''); ?> for this week
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <img src="<?php echo e(asset('images/2.svg')); ?>" alt="icon" class="card-icon-top">
+                    <img src="<?php echo e(asset('images/22.svg')); ?>" alt="icon" class="card-icon-bottom">
+                    <div class="card-title">Registered Users</div>
+                    <div class="card-number"><?php echo e($totalMembers); ?></div>
+                    <div class="card-subtitle">
+                        <?php echo e($recentMembers); ?> new user<?php echo e($recentMembers != 1 ? 's' : ''); ?> in 3 days
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <img src="<?php echo e(asset('images/3.svg')); ?>" alt="icon" class="card-icon-top">
+                    <img src="<?php echo e(asset('images/33.svg')); ?>" alt="icon" class="card-icon-bottom">
+                    <div class="card-title">Today's Pick-Up</div>
+                    <div class="card-number"><?php echo e($todayPickup); ?></div>
+                    <div class="card-subtitle">
+                        <?php echo e($todayPickupCompleted); ?> completed, <?php echo e($todayPickupRemaining); ?> remaining
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <img src="<?php echo e(asset('images/4.svg')); ?>" alt="icon" class="card-icon-top">
+                    <img src="<?php echo e(asset('images/44.svg')); ?>" alt="icon" class="card-icon-bottom">
+                    <div class="card-title">Reviews</div>
+                    <div class="card-number"><?php echo e($totalReviews); ?></div>
+                    <div class="card-subtitle">
+                        <?php echo e($totalReviews); ?> review<?php echo e($totalReviews != 1 ? 's' : ''); ?> recorded
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar & Activity Row -->
+            <div class="content-row">
+                <!-- Calendar -->
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <div class="calendar-title">
+                            <span id="currentMonth"><?php echo e(date('F Y')); ?></span>
+                            <div class="calendar-subtitle">Pet Boarding Schedule</div>
+                        </div>
+                        <div class="calendar-nav">
+                            <button class="nav-btn" onclick="previousMonth()">
+                                <img src="<?php echo e(asset('images/minus1.svg')); ?>" alt="Previous" class="nav-icon">
+                            </button>
+                            <button class="nav-btn" onclick="nextMonth()">
+                                <img src="<?php echo e(asset('images/plus1.svg')); ?>" alt="Next" class="nav-icon">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <div class="weekday">Sun</div>
+                        <div class="weekday">Mon</div>
+                        <div class="weekday">Tue</div>
+                        <div class="weekday">Wed</div>
+                        <div class="weekday">Thu</div>
+                        <div class="weekday">Fri</div>
+                        <div class="weekday">Sat</div>
+                    </div>
+                    <div class="calendar-days" id="calendarDays">
+                        <!-- Calendar days will be generated by JavaScript -->
+                    </div>
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#E57300;"></span>
+                            <span>Busy (10+ bookings)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#FFA500;"></span>
+                            <span>Moderate (5-9 bookings)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#4CAF50;"></span>
+                            <span>Available (1-4 bookings)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">
+                            Today's Activities
+                            <span class="activity-count"><?php echo e($todayActivities); ?> today</span>
+                        </div>
+                    </div>
+                    <div class="activity-timeline" id="activityTimeline">
+                        <?php $__empty_1 = true; $__currentLoopData = $recentActivities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $activity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <div class="activity-item">
+                                <div class="activity-icon-wrapper <?php echo e($activity['status'] == 'confirmed' ? 'success' : 'info'); ?>">
+                                    <img src="<?php echo e(asset('images/booking.svg')); ?>" alt="Activity" class="activity-image">
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text"><?php echo e($activity['text']); ?></div>
+                                    <div class="activity-detail"><?php echo e($activity['detail']); ?></div>
+                                </div>
+                                <div class="activity-time"><?php echo e($activity['time']); ?></div>
+                            </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                            <div style="text-align:center;padding:20px;color:#999;">
+                                No activities today
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="activity-summary">
+                        <div class="summary-item">
+                            <div class="summary-number"><?php echo e($dogsBoarded); ?></div>
+                            <div class="summary-label">Dogs Boarded</div>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-item">
+                            <div class="summary-number"><?php echo e($catsBoarded); ?></div>
+                            <div class="summary-label">Cats Boarded</div>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-item">
+                            <div class="summary-number"><?php echo e($todayPickup); ?></div>
+                            <div class="summary-label">Pick-ups Today</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Chart -->
+            <div class="sales-card">
+                <div class="sales-header">
+                    <div class="sales-info">
+                        <div class="sales-title">Sales Details</div>
+                        <div class="sales-subtitle">Monthly boarding income trends</div>
+                    </div>
+                    <div class="sales-controls">
+                        <select class="month-selector">
+                            <option value="10">October 2025</option>
+                            <option value="9">September 2025</option>
+                            <option value="11">November 2025</option>
+                            <option value="12">December 2025</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Stats for pet boarding business -->
+                <div class="chart-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">Rp <?php echo e(number_format($monthlyRevenue / 1000000, 1)); ?>M</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                        <div class="stat-change <?php echo e($monthlyRevenue > 0 ? 'positive' : 'neutral'); ?>">
+                            <?php echo e($monthlyRevenue > 0 ? 'This Month' : 'No data'); ?>
+
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value"><?php echo e($monthlyPets); ?></div>
+                        <div class="stat-label">Total Pets Boarded</div>
+                        <div class="stat-change <?php echo e($monthlyPets > 0 ? 'positive' : 'neutral'); ?>">
+                            This Month
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value"><?php echo e(number_format($averageRating, 1)); ?>★</div>
+                        <div class="stat-label">Average Rating</div>
+                        <div class="stat-change <?php echo e($averageRating >= 4 ? 'positive' : 'neutral'); ?>">
+                            From Testimonials
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value"><?php echo e($capacityUtilization); ?>%</div>
+                        <div class="stat-label">Capacity Utilization</div>
+                        <div class="stat-change <?php echo e($capacityUtilization > 70 ? 'positive' : 'neutral'); ?>">
+                            Active Now
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="salesChart" width="100%" height="260"></canvas>
+                </div>
+            </div>
+
+            <!-- Booking Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-info">
+                        <div class="table-title">Today's Booking List</div>
+                        <div class="table-subtitle">Live booking status and management</div>
+                    </div>
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" placeholder="Search bookings..." id="searchInput">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="booking-table">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>Owner Name</th>
+                                <th>Pet Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Animal Type</th>
+                                <th>Total Payment</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingTableBody">
+                            <?php $__empty_1 = true; $__currentLoopData = $recentBookings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $booking): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                <tr>
+                                    <td><?php echo e($index + 1); ?></td>
+                                    <td><?php echo e($booking->member->name ?? 'N/A'); ?></td>
+                                    <td><?php echo e($booking->pet_name); ?></td>
+                                    <td><?php echo e(\Carbon\Carbon::parse($booking->booking_date)->format('d/m/Y')); ?></td>
+                                    <td><?php echo e(\Carbon\Carbon::parse($booking->booking_date)->format('d/m/Y')); ?></td>
+                                    <td><?php echo e(ucfirst($booking->pet_type)); ?></td>
+                                    <td>Rp <?php echo e(number_format($booking->total_price, 0, ',', '.')); ?></td>
+                                    <td>
+                                        <span class="status-badge status-<?php echo e($booking->status); ?>">
+                                            <?php echo e(ucfirst($booking->status)); ?>
+
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <tr>
+                                    <td colspan="8" style="text-align:center;padding:40px;">
+                                        <div style="color:#999;">No bookings found</div>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL NOTIFICATION -->
+    <div class="notification-modal" id="notificationModal">
+        <div class="notification-content">
+            <div class="notification-header">
+                <h3>Notifications</h3>
+                <button onclick="toggleNotificationModal()">&times;</button>
+            </div>
+
+            <div id="notificationList">
+                <div class="notification-item unread">
+                    <h4>New Booking</h4>
+                    <p>A user made a booking today</p>
+                </div>
+                <div class="notification-item unread">
+                    <h4>Payment Received</h4>
+                    <p>Transaction #123 successful</p>
+                </div>
+                <div class="notification-item">
+                    <h4>New Testimonial</h4>
+                    <p>A customer left a review</p>
+                </div>
+            </div>
+
+            <div class="notification-footer">
+                <button onclick="markAllAsRead()">Mark All as Read</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Root Styles */
+
+        .dashboard-main {
+            flex: 1;
+            padding: 40px 32px 32px 32px;
+            max-width: 100%;
+            margin-left: 250px;
+            /* kasih jarak biar nggak ketiban sidebar */
+        }
+
+        .dashboard-root {
+            display: flex;
+            min-height: 100vh;
+            background: #EAE6E1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Main Content */
+        .dashboard-main {
+            flex: 1;
+            padding: 40px 32px 32px 32px;
+            max-width: 100%;
+        }
+
+        /* Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 32px;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 32px;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .header-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #6B4F3A;
+            letter-spacing: -0.02em;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: #A97B5D;
+            font-weight: 500;
+        }
+
+        .header-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .notification-img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .notification-icon:hover {
+            background: #f5f5f5;
+        }
+
+        .notification-icon .badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #E63946;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 50%;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 16px 6px 6px;
+            border-radius: 50px;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .profile-info:hover {
+            background: #f9f9f9;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-info img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #E57300;
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .profile-email {
+            font-size: 0.75rem;
+            color: #888;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        .profile-details {
+            line-height: 1.2;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            color: #6B4F3A;
+            font-size: 1rem;
+            text-transform: capitalize;
+        }
+
+        .profile-role {
+            font-size: 0.85rem;
+            color: #A97B5D;
+            font-weight: 500;
+        }
+
+        .profile-notification {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            cursor: pointer;
+        }
+
+        .notification-icon {
+            font-size: 20px;
+            color: #6B4F3A;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: #E57300;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 50%;
+            min-width: 16px;
+            height: 16px;
+            text-align: center;
+            line-height: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Stats Cards */
+        .dashboard-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-card {
+            position: relative;
+            background: #fff;
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 6px;
+            box-shadow: 0 4px 24px rgba(230, 161, 93, 0.13);
+            transition: all 0.3s ease;
+            min-height: 160px;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(230, 161, 93, 0.2);
+        }
+
+        .card-icon-top {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 24px;
+            height: 24px;
+            opacity: 0.9;
+        }
+
+        .card-icon-bottom {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            width: 18px;
+            height: 18px;
+            opacity: 0.9;
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: #6B4F3A;
+            margin-right: 40px;
+            font-size: 0.95rem;
+            align-self: flex-start;
+        }
+
+        .card-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #E57300;
+            margin: 8px 0;
+            align-self: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .card-subtitle {
+            color: #4CAF50;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-left: 30px;
+            margin-top: auto;
+            text-align: center;
+            width: calc(100% - 44px);
+        }
+
+        /* Content Row */
+        .content-row {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+            align-items: stretch;
+        }
+
+        /* Calendar */
+        .calendar-card {
+            background: #FFE0B2;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 12px 40px rgba(230, 161, 93, 0.12);
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
+            border: 1px solid rgba(255, 224, 178, 0.5);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .calendar-title span {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #6B4F3A;
+            display: block;
+        }
+
+        .calendar-subtitle {
+            font-size: 0.9rem;
+            color: #A97B5D;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 12px;
+            padding: 10px;
+            color: #6B4F3A;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .weekday {
+            text-align: center;
+            color: #A97B5D;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 10px 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            flex: 1;
+            margin-bottom: 16px;
+        }
+
+        .calendar-day {
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6B4F3A;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            position: relative;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .calendar-day .day-number {
+            font-size: 0.9rem;
+        }
+
+        .calendar-day .booking-count {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #E57300;
+            color: white;
+            font-size: 0.65rem;
+            padding: 1px 4px;
+            border-radius: 8px;
+            font-weight: 700;
+            min-width: 16px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .calendar-day:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        .calendar-day.today {
+            background: #E57300;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(229, 115, 0, 0.3);
+        }
+
+        .calendar-day.today .booking-count {
+            background: white;
+            color: #E57300;
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+            background: transparent;
+        }
+
+        .calendar-day.busy {
+            background: rgba(229, 115, 0, 0.2);
+            border: 2px solid #E57300;
+        }
+
+        .calendar-day.moderate {
+            background: rgba(255, 165, 0, 0.15);
+            border: 2px solid #FFA500;
+        }
+
+        .calendar-day.moderate .booking-count {
+            background: #FFA500;
+        }
+
+        .calendar-day.available {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid #4CAF50;
+        }
+
+        .calendar-day.available .booking-count {
+            background: #4CAF50;
+        }
+
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(169, 123, 93, 0.2);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #A97B5D;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.busy {
+            background: #E57300;
+        }
+
+        .legend-dot.moderate {
+            background: #FFCC99;
+        }
+
+        .legend-dot.available {
+            background: #4CAF50;
+        }
+
+        /* Activity */
+        .activity-card {
+            background: linear-gradient(135deg, #fff 0%, #fefefe 100%);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 12px 40px rgba(230, 161, 93, 0.08);
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .activity-title {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #6B4F3A;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .activity-count {
+            background: #E57300;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+
+        .activity-timeline {
+            flex: 1;
+            margin-bottom: 20px;
+            overflow-y: auto;
+            overflow-x: hidden; /* prevent side scrolling */
+            max-height: 240px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(169, 123, 93, 0.1);
+            transition: background 0.2s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(229, 115, 0, 0.05);
+            border-radius: 12px;
+        }
+
+        .activity-icon-wrapper {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-icon-wrapper.success {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .activity-icon-wrapper.warning {
+            background: rgba(255, 152, 0, 0.1);
+            border: 2px solid rgba(255, 152, 0, 0.2);
+        }
+
+        .activity-icon-wrapper.primary {
+            background: rgba(229, 115, 0, 0.1);
+            border: 2px solid rgba(229, 115, 0, 0.2);
+        }
+
+        .activity-icon-wrapper.info {
+            background: rgba(33, 150, 243, 0.1);
+            border: 2px solid rgba(33, 150, 243, 0.2);
+        }
+
+        .activity-image {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .activity-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-text {
+            color: #6B4F3A;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .activity-detail {
+            color: #A97B5D;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .activity-time {
+            color: #A97B5D;
+            font-size: 0.8rem;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .activity-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0 0 0;
+            border-top: 1px solid rgba(169, 123, 93, 0.2);
+        }
+
+        .summary-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .summary-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #E57300;
+            margin-bottom: 4px;
+        }
+
+        .summary-label {
+            font-size: 0.8rem;
+            color: #A97B5D;
+            font-weight: 500;
+        }
+
+        .summary-divider {
+            width: 1px;
+            height: 30px;
+            background: rgba(169, 123, 93, 0.2);
+            margin: 0 16px;
+        }
+
+        /* Sales Chart */
+        .sales-card {
+            background: linear-gradient(135deg, #fff 0%, #fefefe 100%);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 12px 40px rgba(230, 161, 93, 0.08);
+            margin-bottom: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .sales-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .sales-title {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #6B4F3A;
+            margin-bottom: 4px;
+        }
+
+        .sales-subtitle {
+            color: #A97B5D;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .sales-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .month-selector {
+            background: linear-gradient(135deg, #FFE0B2, #FFCC99);
+            border: 1px solid rgba(169, 123, 93, 0.2);
+            border-radius: 12px;
+            padding: 10px 16px;
+            color: #6B4F3A;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .month-selector:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229, 115, 0, 0.2);
+        }
+
+        .chart-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #F7F5F2, #FFEEE5);
+            border-radius: 16px;
+            border: 1px solid rgba(169, 123, 93, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #E57300;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #A97B5D;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .stat-change.positive {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .stat-change.neutral {
+            background: rgba(158, 158, 158, 0.1);
+            color: #9E9E9E;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #FFF7EC, #FFFFFF);
+            border-radius: 16px;
+            border: 1px solid rgba(240, 210, 170, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Table Styles */
+        .table-card {
+            background: linear-gradient(135deg, #fff 0%, #fefefe 100%);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 12px 40px rgba(230, 161, 93, 0.08);
+            margin-bottom: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            gap: 20px;
+        }
+
+        .table-info {
+            flex: 1;
+        }
+
+        .table-title {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #6B4F3A;
+            margin-bottom: 4px;
+        }
+
+        .table-subtitle {
+            color: #A97B5D;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .table-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            color: #A97B5D;
+            z-index: 1;
+        }
+
+        .search-box input {
+            background: #F7F5F2;
+            border: 1px solid rgba(169, 123, 93, 0.2);
+            border-radius: 12px;
+            padding: 10px 16px 10px 40px;
+            font-size: 0.9rem;
+            color: #6B4F3A;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #E57300;
+            box-shadow: 0 0 0 3px rgba(229, 115, 0, 0.1);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .booking-table {
+            width: 100%;
+            min-width: 800px;
+            background: #fff;
+            border-collapse: collapse;
+        }
+
+        .booking-table thead tr {
+            background: linear-gradient(135deg, #FFE0B2, #F9D9A7);
+        }
+
+        .booking-table th {
+            color: #6B4F3A;
+            padding: 20px 16px;
+            font-weight: 700;
+            text-align: left;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(169, 123, 93, 0.1);
+        }
+
+        /* Center Status header and column */
+        .booking-table th:nth-child(8),
+        .booking-table td:nth-child(8) {
+            text-align: center;
+        }
+
+        .booking-table td {
+            padding: 20px 16px;
+            border-bottom: 1px solid rgba(240, 240, 240, 0.8);
+            color: #6B4F3A;
+            vertical-align: middle;
+        }
+
+        .booking-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .booking-table tbody tr:hover {
+            background: rgba(229, 115, 0, 0.02);
+            transform: scale(1.005);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 34px;              /* uniform height */
+            min-width: 140px;          /* uniform width baseline */
+            padding: 0 16px;           /* horizontal padding */
+            border-radius: 22px;       /* rounded pill */
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+
+        /* Match Manage Booking styles */
+        .status-pending {
+            background: linear-gradient(135deg, #FFF3CD, #FFF8DC);
+            color: #856404;
+            border: 1px solid #FFEAA7;
+        }
+
+        .status-confirmed {
+            background: linear-gradient(135deg, #D4EDDA, #C3E6CB);
+            color: #155724;
+            border: 1px solid #B8DAFF;
+        }
+
+        .status-checked-in {
+            background: linear-gradient(135deg, #D1ECF1, #BEE5EB);
+            color: #0C5460;
+            border: 1px solid #BEE5EB;
+        }
+
+        .status-completed {
+            background: linear-gradient(135deg, #E2E3E5, #F8F9FA);
+            color: #383D41;
+            border: 1px solid #DEE2E6;
+        }
+
+        .status-on-pickup {
+            background: linear-gradient(135deg, #FFE0B2, #F9D9A7);
+            color: #6B4F3A;
+            border: 1px solid #F5CBA7;
+        }
+
+        .status-cancelled {
+            background: linear-gradient(135deg, #F8D7DA, #F5C6CB);
+            color: #721C24;
+            border: 1px solid #F5C6CB;
+        }
+
+        /* Sidebar Hover Effects */
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .dashboard-sidebar a:hover {
+            transform: translateX(2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content-row {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .dashboard-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-root {
+                flex-direction: column;
+            }
+
+            .dashboard-sidebar {
+                width: 100%;
+                border-radius: 0;
+                border-bottom-left-radius: 24px;
+                border-bottom-right-radius: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-main {
+                padding: 20px 16px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .header-title {
+                font-size: 1.8rem;
+            }
+
+            .dashboard-stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .card-number {
+                font-size: 2.2rem;
+            }
+
+            .table-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+
+            .table-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .chart-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-summary {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .summary-divider {
+                width: 100%;
+                height: 1px;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-header {
+                border-radius: 16px;
+            }
+
+            .dashboard-card {
+                min-height: 160px;
+                border-radius: 16px;
+                padding: 20px;
+            }
+
+            .calendar-card,
+            .activity-card,
+            .sales-card,
+            .table-card {
+                border-radius: 16px;
+                padding: 20px;
+            }
+
+            .card-number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dashboard-card,
+        .calendar-card,
+        .activity-card,
+        .sales-card,
+        .table-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .dashboard-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .dashboard-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dashboard-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .dashboard-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        /* Notification Modal */
+        .notification-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            justify-content: flex-end;
+            z-index: 2000;
+        }
+
+        .notification-modal.show {
+            display: flex;
+        }
+
+        .notification-content {
+            width: 380px;
+            background: #fff;
+            height: 100%;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: -2px 0 12px rgba(0,0,0,0.1);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .notification-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4B2E2B;
+        }
+
+        .notification-header button {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .notification-header button:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .notification-item {
+            padding: 14px 16px;
+            border-radius: 8px;
+            background: #fafafa;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .notification-item:hover {
+            background: #f5f5f5;
+        }
+
+        .notification-item.unread {
+            background: #FFF6E9;
+            border-left-color: #F28C48;
+        }
+
+        .notification-item h4 {
+            margin: 0 0 4px 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .notification-item p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .notification-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .notification-footer button {
+            background: #F28C48;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .notification-footer button:hover {
+            background: #e07732;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(242, 140, 72, 0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .notification-content {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .profile-info span {
+                display: none;
+            }
+            
+            .profile-info {
+                padding: 4px;
+                margin-left: 4px;
+            }
+        }
+    </style>
+
+    <script>
+        // Notification Functions
+        const modal = document.getElementById("notificationModal");
+        const badge = document.getElementById("notificationBadge");
+        let notifications = document.querySelectorAll(".notification-item.unread");
+
+        function toggleNotificationModal() {
+            modal.classList.toggle("show");
+            document.body.style.overflow = modal.classList.contains("show") ? "hidden" : "";
+            
+            // Mark notifications as read when opening the modal
+            if (modal.classList.contains("show")) {
+                markAllAsRead();
+            }
+        }
+
+        function markAllAsRead() {
+            const unreadItems = document.querySelectorAll(".notification-item.unread");
+            unreadItems.forEach(item => {
+                item.classList.remove("unread");
+                item.style.opacity = '0.7';
+            });
+            
+            // Update badge count
+            updateBadgeCount();
+        }
+
+        function updateBadgeCount() {
+            const unreadCount = document.querySelectorAll(".notification-item.unread").length;
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                toggleNotificationModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.classList.contains('show')) {
+                toggleNotificationModal();
+            }
+        });
+
+        // Initialize the badge count
+        updateBadgeCount();
+
+        // Existing code
+        document.addEventListener('DOMContentLoaded', function () {
+            generateCalendar();
+            // loadBookingData(); // Removed - now using backend data
+            // loadActivityData(); // Removed - now using backend data
+            initializeSalesChart();
+            initializeSearch();
+        });
+
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let bookingData = {};
+
+        async function generateCalendar() {
+            const calendarDays = document.getElementById('calendarDays');
+            const currentMonthElement = document.getElementById('currentMonth');
+            const today = new Date();
+            const todayDate = today.getDate();
+
+            // Update month display
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            // Fetch booking data from API
+            try {
+                const response = await fetch(`/admin/dashboard/calendar?month=${currentMonth + 1}&year=${currentYear}`);
+                const data = await response.json();
+                bookingData = data.bookings || {};
+            } catch (error) {
+                console.error('Error fetching calendar data:', error);
+                bookingData = {};
+            }
+
+            // Get first day of month and number of days
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+            calendarDays.innerHTML = '';
+
+            // Previous month's trailing days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.textContent = daysInPrevMonth - i;
+                calendarDays.appendChild(day);
+            }
+
+            // Current month's days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                // Create date string for lookup
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const bookingCount = bookingData[dateStr]?.total_booked || 0;
+
+                // Add day number
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = day;
+                dayElement.appendChild(dayNumber);
+
+                // Highlight today
+                if (day === todayDate && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+
+                // Add booking indicators based on count
+                if (bookingCount > 0) {
+                    const countBadge = document.createElement('div');
+                    countBadge.className = 'booking-count';
+                    countBadge.textContent = bookingCount;
+                    dayElement.appendChild(countBadge);
+
+                    // Add class based on booking count
+                    if (bookingCount >= 10) {
+                        dayElement.classList.add('busy');
+                    } else if (bookingCount >= 5) {
+                        dayElement.classList.add('moderate');
+                    } else {
+                        dayElement.classList.add('available');
+                    }
+                }
+
+                calendarDays.appendChild(dayElement);
+            }
+
+            // Next month's leading days
+            const totalCells = calendarDays.children.length;
+            const remainingCells = 42 - totalCells;
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day other-month';
+                dayElement.textContent = day;
+                calendarDays.appendChild(dayElement);
+            }
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        }
+
+        // loadActivityData() - REMOVED, now using backend data from Blade template
+
+        // loadBookingData() - REMOVED, now using backend data from Blade template
+
+        function initializeSalesChart() {
+            const container = document.querySelector('.chart-container');
+
+            const dataPoints = [
+                { month: 'Jan', value: 4.2 }, { month: 'Feb', value: 3.8 }, { month: 'Mar', value: 5.1 },
+                { month: 'Apr', value: 4.7 }, { month: 'May', value: 6.2 }, { month: 'Jun', value: 5.9 },
+                { month: 'Jul', value: 7.1 }, { month: 'Aug', value: 8.5 }, { month: 'Sep', value: 7.8 },
+                { month: 'Oct', value: 9.2 }, { month: 'Nov', value: 8.7 }, { month: 'Dec', value: 10.5 }
+            ];
+
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 1000 300');
+            svg.setAttribute('preserveAspectRatio', 'none');
+            svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            gradient.id = 'chartFill';
+            gradient.setAttribute('x1', '0');
+            gradient.setAttribute('x2', '0');
+            gradient.setAttribute('y1', '0');
+            gradient.setAttribute('y2', '1');
+
+            const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop1.setAttribute('offset', '0%');
+            stop1.setAttribute('stop-color', '#E57300');
+            stop1.setAttribute('stop-opacity', '0.4');
+
+            const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop2.setAttribute('offset', '100%');
+            stop2.setAttribute('stop-color', '#E57300');
+            stop2.setAttribute('stop-opacity', '0.05');
+
+            gradient.appendChild(stop1);
+            gradient.appendChild(stop2);
+            defs.appendChild(gradient);
+            svg.appendChild(defs);
+
+            let pathData = 'M 0,250';
+            const stepX = 1000 / (dataPoints.length - 1);
+            const maxValue = Math.max(...dataPoints.map(p => p.value));
+
+            dataPoints.forEach((point, index) => {
+                const x = index * stepX;
+                const y = 300 - (point.value / maxValue * 200) - 50;
+                pathData += ` L ${x},${y}`;
+            });
+
+            pathData += ' L 1000,300 L 0,300 Z';
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('fill', 'url(#chartFill)');
+            path.setAttribute('stroke', '#E57300');
+            path.setAttribute('stroke-width', '3');
+
+            svg.appendChild(path);
+            container.innerHTML = '';
+            container.appendChild(svg);
+        }
+
+        function initializeSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const tableRows = document.querySelectorAll('#bookingTableBody tr');
+
+                tableRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                console.log('Searching for:', searchTerm);
+            });
+        }
+
+        // Month selector change event
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('month-selector')) {
+                console.log('Month changed to:', e.target.value);
+                // Here you would typically reload the chart data for the selected month
+                // For demonstration, we'll just log it
+            }
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\pawtopia\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>
