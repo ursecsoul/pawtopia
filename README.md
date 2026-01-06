@@ -86,7 +86,7 @@ Contoh cara menjalankan migrasi:
 Atau juga bisa mengisi database awal dengan seeder:
 - php artisan db:seed
 
-Cara Install & Jalankan (Local)
+### Cara Install & Jalankan (Local)
 
 1. Clone repository:
 - git clone https://github.com/ursecsoul/pawtopia.git
@@ -111,9 +111,9 @@ Cara Install & Jalankan (Local)
 7. Jalankan server:
 - php artisan serve
 
-Server akan berjalan di http://127.0.0.1:8000
+**Server akan berjalan di http://127.0.0.1:8000**
 
-Fitur :
+### Fitur :
 - Halaman Beranda
 - Booking
 - Katalog Produk
@@ -122,7 +122,7 @@ Fitur :
 - Autentikasi Admin
 - CRUD Produk & Kategori, testimoni
 
-Teknologi yang Digunakan : 
+### Teknologi yang Digunakan : 
 - PHP (Laravel Framework)
 - Composer
 - Blade Template
